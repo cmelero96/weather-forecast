@@ -1,5 +1,5 @@
 import './App.css';
-import WeatherPage from './WeatherPage';
+import WeatherPage from './components/WeatherPage';
 
 const city = 'Sevilla';
 const languages = {
@@ -8,7 +8,7 @@ const languages = {
 };
 
 function App() {
-  return <WeatherPage city={city} language={languages.spanish}></WeatherPage>;
+  return <WeatherPage city={city} language={languages.english}></WeatherPage>;
 }
 
 export default App;
