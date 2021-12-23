@@ -1,8 +1,9 @@
 import './App.css';
 import WeatherPage from './components/WeatherPage';
 import SearchList from './components/SearchList';
+import { useState } from 'react';
+import allCities from './city.list.json';
 
-const city = 'Sevilla';
 const languages = {
   english: 'en',
   spanish: 'es',
@@ -11,6 +12,14 @@ const countries = [
   { value: 'Spain', label: 'Spain', code: 'ES' },
   { value: 'USA', label: 'United States', code: 'US' },
 ];
+
+const getCitiesByCountry = (countryCode) => {
+  return allCities
+    .filter((city) => city.country === countryCode)
+    .map((city) => {
+      return { value: city.name, label: city.name };
+    });
+};
 
 function App() {
   /* TODO list of features:
@@ -23,10 +32,41 @@ function App() {
     - Add localization to strings
     - Make website accessible
   */
+
+  const [country, setCountry] = useState(null);
+  const [city, setCity] = useState('');
+
+  const selectCountryHandler = (country) => {
+    setCountry(country);
+    setCity('');
+  };
+
+  const selectCityHandler = (city) => {
+    setCity(city.label);
+  };
+
+  console.log(country);
+  console.log(city);
+
   return (
     <>
-      <SearchList options={countries}></SearchList>
-      <WeatherPage city={city} language={languages.english}></WeatherPage>
+      <SearchList
+        value={(country && country.label) || ''}
+        options={countries}
+        onSelect={selectCountryHandler}
+        placeholder="Select your country"
+      ></SearchList>
+      {country && (
+        <SearchList
+          value={city}
+          options={getCitiesByCountry(country.code)}
+          onSelect={selectCityHandler}
+          placeholder="Select your city"
+        ></SearchList>
+      )}
+      {city && (
+        <WeatherPage city={city} language={languages.english}></WeatherPage>
+      )}
     </>
   );
 }

@@ -1,22 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-const SearchList = ({ options }) => {
+const SearchList = ({ value, options, placeholder, onSelect }) => {
+  /* TODO:
+  - Add debouncer
+  - Add message when there's more results than the slice
+  - Add custom slice value
+  - Add minimum of input length to start searching
+  */
   const [filter, setFilter] = useState('');
   const [focused, setFocused] = useState(false);
 
   const inputHandler = (e) => {
     setFilter(e.target.value.toLowerCase());
   };
-
-  const selectCountry = (a) => {
-    console.log(a);
-  };
-
   return (
     <>
       <input
+        value={value}
         type="search"
-        placeholder="Select your country"
+        placeholder={placeholder}
         onChange={inputHandler}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
@@ -25,18 +27,16 @@ const SearchList = ({ options }) => {
         <ul>
           {options
             .filter(
-              (e) =>
+              (element) =>
                 !filter ||
-                e.value.toLowerCase().includes(filter) ||
-                e.label.toLowerCase().includes(filter)
+                element.value.toLowerCase().includes(filter) ||
+                element.label.toLowerCase().includes(filter)
             )
+            .slice(0, 10)
             .map(
               (element) =>
                 element.value && (
-                  <li
-                    key={element.value}
-                    onMouseDown={() => selectCountry(element)}
-                  >
+                  <li key={element.value} onMouseDown={() => onSelect(element)}>
                     {element.label}
                   </li>
                 )
