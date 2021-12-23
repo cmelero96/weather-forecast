@@ -29,7 +29,7 @@ const WeatherPage = ({ city, language }) => {
         icon: `https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`,
         temperature: {
           average: data.main.temp,
-          sensation: data.main.feels_like,
+          perceived: data.main.feels_like,
           min: data.main.temp_min,
           max: data.main.temp_max,
         },
