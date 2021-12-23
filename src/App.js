@@ -1,11 +1,16 @@
 import './App.css';
 import WeatherPage from './components/WeatherPage';
+import SearchList from './components/SearchList';
 
 const city = 'Sevilla';
 const languages = {
   english: 'en',
   spanish: 'es',
 };
+const countries = [
+  { value: 'Spain', label: 'Spain', code: 'ES' },
+  { value: 'USA', label: 'United States', code: 'US' },
+];
 
 function App() {
   /* TODO list of features:
@@ -15,9 +20,15 @@ function App() {
     - Make extra data hideable by clicking somewhere
     - Remember past-searched cities
     - Put past-searched cities somewhere visible, but collapsed so they don't bother
-    - TBD...
+    - Add localization to strings
+    - Make website accessible
   */
-  return <WeatherPage city={city} language={languages.english}></WeatherPage>;
+  return (
+    <>
+      <SearchList options={countries}></SearchList>
+      <WeatherPage city={city} language={languages.english}></WeatherPage>
+    </>
+  );
 }
 
 export default App;
