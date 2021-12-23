@@ -65,9 +65,9 @@ const WeatherPage = ({ city, language }) => {
     return <p>{error}</p>;
   } else if (isLoading) {
     return <p>Loading...</p>;
-  } else {
-    return <WeatherCard data={weatherData}></WeatherCard>;
   }
+
+  return <WeatherCard data={weatherData}></WeatherCard>;
 };
 
 export default WeatherPage;

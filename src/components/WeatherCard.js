@@ -2,6 +2,20 @@ const WeatherCard = ({ data }) => {
   if (!data) {
     return null;
   }
+
+  const cloudsContent = data.clouds ? `${data.clouds}%` : '-';
+  const humidityContent = data.humidity ? `${data.humidity}%` : '-';
+  const rainContent = data.rain ? `${data.rain}mm in the last hour` : '-';
+  const snowContent = data.snow ? `${data.snow}mm in the last hour` : '-';
+  const windContent = data.wind ? (
+    <>
+      {data.wind.speed && <span>{data.wind.speed}m/s&nbsp;</span>}
+      {data.wind.gust && <span>(gusts {data.wind.gust}m/s)&nbsp;</span>}
+      {data.wind.deg && <span>{data.wind.deg}deg&nbsp;</span>}
+    </>
+  ) : (
+    '-'
+  );
   return (
     <section>
       <header>
@@ -23,16 +37,11 @@ const WeatherCard = ({ data }) => {
       </header>
       <section>
         <h3>Extra data</h3>
-        <div>Clouds: {data.clouds}%</div>
-        <div>Humidity: {data.humidity}%</div>
-        <div>Rain: {data.rain}mm in the last hour</div>
-        <div>Snow: {data.snow}mm in the last hour</div>
-        <div>
-          Wind:&nbsp;
-          <span>{data.wind.speed}m/s</span>
-          <span>{data.wind.deg}deg</span>
-          <span>{data.wind.gust}m/s</span>
-        </div>
+        <div>Clouds: {cloudsContent}</div>
+        <div>Humidity: {humidityContent}</div>
+        <div>Rain: {rainContent}</div>
+        <div>Snow: {snowContent}</div>
+        <div>Wind: {windContent}</div>
       </section>
     </section>
   );
