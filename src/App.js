@@ -1,7 +1,7 @@
 import './App.css';
 import WeatherPage from './components/WeatherPage';
 import SearchList from './components/SearchList';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import allCities from './city.list.json';
 
 const languages = {
@@ -13,15 +13,7 @@ const countries = [
   { value: 'USA', label: 'United States', code: 'US' },
 ];
 
-const getCitiesByCountry = (countryCode) => {
-  return allCities
-    .filter((city) => city.country === countryCode)
-    .map((city) => {
-      return { value: city.name, label: city.name };
-    });
-};
-
-function App() {
+const App = () => {
   /* TODO list of features:
     - Create decent styling (probably using Tailwind)
     - Make extra data hideable by clicking somewhere
@@ -43,8 +35,23 @@ function App() {
     setCity(city.label);
   };
 
-  console.log(country);
-  console.log(city);
+  const citiesInCountry = useMemo(() => {
+    if (!country) return [];
+
+    const citiesInCountry = allCities
+      .filter((city) => city.country === country.code)
+      .map((city) => {
+        return { value: city.name, label: city.name };
+      });
+
+    const withoutDuplicates = [];
+    citiesInCountry.forEach((city) => {
+      if (!withoutDuplicates.find((c) => c.value === city.value)) {
+        withoutDuplicates.push(city);
+      }
+    });
+    return withoutDuplicates;
+  }, [country]);
 
   return (
     <>
@@ -57,7 +64,7 @@ function App() {
       {country && (
         <SearchList
           value={city}
-          options={getCitiesByCountry(country.code)}
+          options={citiesInCountry}
           onSelect={selectCityHandler}
           placeholder="Select your city"
         ></SearchList>
@@ -67,6 +74,6 @@ function App() {
       )}
     </>
   );
-}
+};
 
 export default App;

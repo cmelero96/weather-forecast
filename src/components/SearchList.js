@@ -1,5 +1,25 @@
 import { useEffect, useState } from 'react';
 
+const filterAndOrderOptions = (options, filter) => {
+  const fixedFilter = filter.trim().toLowerCase();
+
+  if (!fixedFilter) return options;
+
+  const exactMatch = options.filter(
+    (element) => element.value.toLowerCase() === fixedFilter.toLowerCase()
+  );
+
+  const startingWith = options.filter((element) =>
+    element.value.toLowerCase().startsWith(fixedFilter.toLowerCase())
+  );
+
+  const textIncludes = options.filter((element) =>
+    element.value.toLowerCase().includes(fixedFilter.toLowerCase())
+  );
+
+  return [...exactMatch, ...startingWith, ...textIncludes];
+};
+
 const SearchList = ({ value, options, placeholder, onSelect }) => {
   /* TODO:
   - Add debouncer
@@ -14,7 +34,7 @@ const SearchList = ({ value, options, placeholder, onSelect }) => {
   const changeHandler = (event) => {
     const input = event.target.value;
     setInputValue(input);
-    setFilter(input.toLowerCase());
+    setFilter(input);
   };
 
   useEffect(() => {
@@ -33,13 +53,7 @@ const SearchList = ({ value, options, placeholder, onSelect }) => {
       ></input>
       {focused && (
         <ul>
-          {options
-            .filter(
-              (element) =>
-                !filter ||
-                element.value.toLowerCase().includes(filter) ||
-                element.label.toLowerCase().includes(filter)
-            )
+          {filterAndOrderOptions(options, filter)
             .slice(0, 10)
             .map(
               (element) =>
