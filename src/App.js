@@ -10,7 +10,7 @@ const languages = {
 };
 const countries = [
   { value: 'Spain', label: 'Spain', code: 'ES' },
-  { value: 'USA', label: 'United States', code: 'US' },
+  { value: 'United States', label: 'United States', code: 'US' },
 ];
 
 const App = () => {
