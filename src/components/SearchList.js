@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const SearchList = ({ value, options, placeholder, onSelect }) => {
   /* TODO:
@@ -9,17 +9,25 @@ const SearchList = ({ value, options, placeholder, onSelect }) => {
   */
   const [filter, setFilter] = useState('');
   const [focused, setFocused] = useState(false);
+  const [inputValue, setInputValue] = useState(value);
 
-  const inputHandler = (e) => {
-    setFilter(e.target.value.toLowerCase());
+  const changeHandler = (event) => {
+    const input = event.target.value;
+    setInputValue(input);
+    setFilter(input.toLowerCase());
   };
+
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
+
   return (
     <>
       <input
-        value={value}
+        value={inputValue}
         type="search"
         placeholder={placeholder}
-        onChange={inputHandler}
+        onChange={changeHandler}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
       ></input>
