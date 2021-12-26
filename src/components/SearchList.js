@@ -16,21 +16,15 @@ const SearchList = ({
   const [filter, setFilter] = useState('');
   const [focused, setFocused] = useState(false);
   const [inputValue, setInputValue] = useState(value);
-  const [ellipsisFlag, setEllipsisFlag] = useState(false);
 
   const filteredAndOrderedOptions = useMemo(() => {
     const fixedFilter = filter.trim().toLowerCase();
 
     if (!fixedFilter) {
-      setEllipsisFlag(options.length > maxItems);
       return options;
     }
 
     const result = filterAndOrderByAccuracy(options, fixedFilter);
-
-    if (result.length > maxItems) {
-      setEllipsisFlag(true);
-    }
 
     return result.slice(0, maxItems);
   }, [options, filter, maxItems]);
@@ -39,6 +33,10 @@ const SearchList = ({
     const input = event.target.value;
     setInputValue(input);
     setFilter(input);
+
+    if (input === '') {
+      onSelect(null);
+    }
   };
 
   useEffect(() => {
@@ -65,7 +63,6 @@ const SearchList = ({
                 </li>
               )
           )}
-          {ellipsisFlag && <li>···</li>}
         </ul>
       )}
     </div>

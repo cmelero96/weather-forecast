@@ -32,7 +32,7 @@ const App = () => {
   };
 
   const selectCityHandler = (city) => {
-    setCity(city.label);
+    setCity(city?.label);
   };
 
   const citiesInCountry = useMemo(() => {
@@ -63,7 +63,7 @@ const App = () => {
       ></SearchList>
       {country && (
         <SearchList
-          value={city}
+          value={city || ''}
           options={citiesInCountry}
           onSelect={selectCityHandler}
           placeholder="Select your city"
