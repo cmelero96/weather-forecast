@@ -23,8 +23,6 @@ const getCitiesByCountry = (countryCode) => {
 
 function App() {
   /* TODO list of features:
-    - Search for a city from a dropdown list and get weather for that city
-    - Restrict country if searchable dropdown is too slow
     - Create decent styling (probably using Tailwind)
     - Make extra data hideable by clicking somewhere
     - Remember past-searched cities
