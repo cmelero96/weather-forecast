@@ -5,19 +5,35 @@ const filterAndOrderOptions = (options, filter) => {
 
   if (!fixedFilter) return options;
 
-  const exactMatch = options.filter(
+  const mergedWithoutDuplicates = [];
+
+  const exactMatch = options.find(
     (element) => element.value.toLowerCase() === fixedFilter.toLowerCase()
   );
 
-  const startingWith = options.filter((element) =>
-    element.value.toLowerCase().startsWith(fixedFilter.toLowerCase())
-  );
+  if (exactMatch) {
+    mergedWithoutDuplicates.push(exactMatch);
+  }
 
-  const textIncludes = options.filter((element) =>
-    element.value.toLowerCase().includes(fixedFilter.toLowerCase())
-  );
+  options.forEach((element) => {
+    if (
+      !mergedWithoutDuplicates.find((el) => el.value === element.value) &&
+      element.value.toLowerCase().startsWith(fixedFilter.toLowerCase())
+    ) {
+      mergedWithoutDuplicates.push(element);
+    }
+  });
 
-  return [...exactMatch, ...startingWith, ...textIncludes];
+  options.forEach((element) => {
+    if (
+      !mergedWithoutDuplicates.find((el) => el.value === element.value) &&
+      element.value.toLowerCase().includes(fixedFilter.toLowerCase())
+    ) {
+      mergedWithoutDuplicates.push(element);
+    }
+  });
+
+  return mergedWithoutDuplicates;
 };
 
 const SearchList = ({ value, options, placeholder, onSelect }) => {
