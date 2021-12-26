@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
+import { filterAndOrderByAccuracy } from '../utils';
 
 const SearchList = ({
   value,
   options,
   placeholder,
-  displayLength = 10,
+  maxItems = 10,
   onSelect,
 }) => {
   /* TODO:
@@ -21,44 +22,18 @@ const SearchList = ({
     const fixedFilter = filter.trim().toLowerCase();
 
     if (!fixedFilter) {
-      setEllipsisFlag(options.length > displayLength);
+      setEllipsisFlag(options.length > maxItems);
       return options;
     }
 
-    const mergedWithoutDuplicates = [];
+    const result = filterAndOrderByAccuracy(options, fixedFilter);
 
-    const exactMatch = options.find(
-      (element) => element.value.toLowerCase() === fixedFilter.toLowerCase()
-    );
-
-    if (exactMatch) {
-      mergedWithoutDuplicates.push(exactMatch);
-    }
-
-    options.forEach((element) => {
-      if (
-        !mergedWithoutDuplicates.find((el) => el.value === element.value) &&
-        element.value.toLowerCase().startsWith(fixedFilter.toLowerCase())
-      ) {
-        mergedWithoutDuplicates.push(element);
-      }
-    });
-
-    options.forEach((element) => {
-      if (
-        !mergedWithoutDuplicates.find((el) => el.value === element.value) &&
-        element.value.toLowerCase().includes(fixedFilter.toLowerCase())
-      ) {
-        mergedWithoutDuplicates.push(element);
-      }
-    });
-
-    if (mergedWithoutDuplicates.length > displayLength) {
+    if (result.length > maxItems) {
       setEllipsisFlag(true);
     }
 
-    return mergedWithoutDuplicates.slice(0, displayLength);
-  }, [options, filter, displayLength]);
+    return result.slice(0, maxItems);
+  }, [options, filter, maxItems]);
 
   const changeHandler = (event) => {
     const input = event.target.value;
@@ -82,7 +57,7 @@ const SearchList = ({
       ></input>
       {focused && (
         <ul>
-          {filteredAndOrderedOptions.slice(0, displayLength).map(
+          {filteredAndOrderedOptions.slice(0, maxItems).map(
             (element) =>
               element.value && (
                 <li key={element.value} onMouseDown={() => onSelect(element)}>

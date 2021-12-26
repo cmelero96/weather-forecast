@@ -67,7 +67,6 @@ const App = () => {
           options={citiesInCountry}
           onSelect={selectCityHandler}
           placeholder="Select your city"
-          displayLength={10}
         ></SearchList>
       )}
       {city && (
