@@ -10,7 +10,9 @@ const SearchList = ({
   onSelect,
 }) => {
   /* TODO:
-  - Add minimum of input length to start searching
+  - Ignore accents when searching
+  - Consider removing maxItems completely, and instead add vertical overflow and a maximum size.
+    Searches with too many results should be minimized with the minimum search length of 3.
   */
   const [filter, setFilter] = useState('');
   const [focused, setFocused] = useState(false);
@@ -19,7 +21,7 @@ const SearchList = ({
   const filteredAndOrderedOptions = useMemo(() => {
     const fixedFilter = filter.trim().toLowerCase();
 
-    if (!fixedFilter) {
+    if (!fixedFilter || fixedFilter.length < 3) {
       return options;
     }
 

@@ -1,3 +1,7 @@
+/* TODO:
+  - Add multi-word search (i.e. when some of the words match, or are in different order)
+  - Add partial multi-word search (i.e. not the whole word needs to match)
+*/
 export const filterAndOrderByAccuracy = (options, filter) => {
   const mergedWithoutDuplicates = [];
 
