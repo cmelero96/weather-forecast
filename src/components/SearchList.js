@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { DebounceInput } from 'react-debounce-input';
 import { filterAndOrderByAccuracy } from '../utils';
 
 const SearchList = ({
@@ -9,8 +10,6 @@ const SearchList = ({
   onSelect,
 }) => {
   /* TODO:
-  - Add debouncer
-  - Add message when there's more results than the slice
   - Add minimum of input length to start searching
   */
   const [filter, setFilter] = useState('');
@@ -45,14 +44,15 @@ const SearchList = ({
 
   return (
     <div className="wrapper" style={{ border: '1px solid red' }}>
-      <input
+      <DebounceInput
         value={inputValue}
         type="search"
         placeholder={placeholder}
+        debounceTimeout={300}
         onChange={changeHandler}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
-      ></input>
+      ></DebounceInput>
       {focused && (
         <ul>
           {filteredAndOrderedOptions.slice(0, maxItems).map(
