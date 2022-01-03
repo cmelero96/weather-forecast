@@ -16,12 +16,13 @@ const WeatherCard = ({ data }) => {
   ) : (
     '-'
   );
+
   return (
-    <section className="rounded border-4 border-solid border-slate-300">
-      <header>
-        <h2>{data.city}</h2>
-        <figure>
-          <img src={data.icon} alt={data.description}></img>
+    <section>
+      <header className="text-center">
+        <h2 className="text-xl font-bold my-2">{data.city}</h2>
+        <figure className="align-middle">
+          <img className="m-auto" src={data.icon} alt={data.description}></img>
           <figcaption>{data.description.toUpperCase()}</figcaption>
         </figure>
         <section>
@@ -29,14 +30,18 @@ const WeatherCard = ({ data }) => {
             {data.temperature.average}ºC (feels like&nbsp;
             {data.temperature.perceived}ºC)
           </div>
-          <div>
-            <span>{data.temperature.min}ºC</span> -&nbsp;
-            <span>{data.temperature.max}ºC</span>
-          </div>
+          {data.temperature.min !== data.temperature.max && (
+            <div>
+              <>
+                {<span>{data.temperature.min}ºC</span>} -&nbsp;
+                {<span>{data.temperature.max}ºC</span>}
+              </>
+            </div>
+          )}
         </section>
       </header>
       <section>
-        <h3>Extra data</h3>
+        <h3 className="text-lg font-semibold">Extra data</h3>
         <div>Clouds: {cloudsContent}</div>
         <div>Humidity: {humidityContent}</div>
         <div>Rain: {rainContent}</div>

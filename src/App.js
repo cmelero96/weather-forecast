@@ -54,21 +54,24 @@ const App = () => {
   }, [country]);
 
   return (
-    <div className="max-w-sm p-6 mx-auto my-2 bg-white rounded-xl shadow-lg flex flex-col justify-between items-stretch ">
-      <SearchList
-        value={(country && country.label) || ''}
-        options={countries}
-        onSelect={selectCountryHandler}
-        placeholder="Select your country"
-      ></SearchList>
-      {country && (
+    <div className="max-w-xl p-6 mx-auto my-2 bg-white rounded-xl shadow-lg flex flex-col justify-between items-stretch ">
+      <h1 className="text-center text-4xl font-bold mb-4">Weather forecast</h1>
+      <div className="searchboxes-wrapper flex flex-row justify-around">
         <SearchList
-          value={city || ''}
-          options={citiesInCountry}
-          onSelect={selectCityHandler}
-          placeholder="Select your city"
+          value={(country && country.label) || ''}
+          options={countries}
+          onSelect={selectCountryHandler}
+          placeholder="Select your country"
         ></SearchList>
-      )}
+        {country && (
+          <SearchList
+            value={city || ''}
+            options={citiesInCountry}
+            onSelect={selectCityHandler}
+            placeholder="Select your city"
+          ></SearchList>
+        )}
+      </div>
       {city && (
         <WeatherPage city={city} language={languages.english}></WeatherPage>
       )}

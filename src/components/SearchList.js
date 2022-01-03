@@ -63,7 +63,7 @@ const SearchList = ({
   };
 
   return (
-    <>
+    <div className="searchbox-wrapper flex-col">
       <DebounceInput
         className="rounded border-2 border-solid border-slate-500 outline-offset-2 px-1 my-1"
         value={inputValue}
@@ -75,7 +75,7 @@ const SearchList = ({
         onBlur={blurHandler}
       ></DebounceInput>
       {focused && (
-        <ul className="flex-column items-start">
+        <ul className="flex-col items-start">
           {filteredAndOrderedOptions.slice(0, maxItems).map(
             (element) =>
               element.value && (
@@ -89,7 +89,7 @@ const SearchList = ({
           )}
         </ul>
       )}
-    </>
+    </div>
   );
 };
 
