@@ -80,6 +80,7 @@ const SearchList = ({
             (element) =>
               element.value && (
                 <li
+                  className="hover:bg-blue-200"
                   key={element.value}
                   onMouseDown={() => selectHandler(element)}
                 >
