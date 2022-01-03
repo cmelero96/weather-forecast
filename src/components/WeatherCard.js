@@ -49,7 +49,7 @@ const WeatherCard = ({ data }) => {
           {data.temperature.min !== data.temperature.max && (
             <div>
               <>
-                {<span>{data.temperature.min}ºC</span>} -&nbsp;
+                {<span>{data.temperature.min}ºC</span>} to&nbsp;
                 {<span>{data.temperature.max}ºC</span>}
               </>
             </div>
