@@ -1,4 +1,10 @@
+import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+
 const WeatherCard = ({ data }) => {
+  const [displayExtraData, setDisplayExtraData] = useState(false);
+
   if (!data) {
     return null;
   }
@@ -10,12 +16,22 @@ const WeatherCard = ({ data }) => {
   const windContent = data.wind ? (
     <>
       {data.wind.speed && <span>{data.wind.speed}m/s&nbsp;</span>}
-      {data.wind.gust && <span>(gusts {data.wind.gust}m/s)&nbsp;</span>}
       {data.wind.deg && <span>{data.wind.deg}deg&nbsp;</span>}
+      {data.wind.gust !== data.wind.speed && (
+        <span>(gusts {data.wind.gust}m/s)</span>
+      )}
     </>
   ) : (
     '-'
   );
+
+  const arrowTransform = displayExtraData
+    ? 'rotateZ(-180deg)'
+    : 'rotateZ(0deg)';
+
+  const toggleExtraData = () => {
+    setDisplayExtraData((current) => !current);
+  };
 
   return (
     <section>
@@ -41,12 +57,26 @@ const WeatherCard = ({ data }) => {
         </section>
       </header>
       <section>
-        <h3 className="text-lg font-semibold">Extra data</h3>
-        <div>Clouds: {cloudsContent}</div>
-        <div>Humidity: {humidityContent}</div>
-        <div>Rain: {rainContent}</div>
-        <div>Snow: {snowContent}</div>
-        <div>Wind: {windContent}</div>
+        <header
+          className="flex flex-row hover:bg-slate-200 cursor-pointer w-fit mb-1"
+          onClick={toggleExtraData}
+        >
+          <FontAwesomeIcon
+            className="m-auto transition-all"
+            icon={faChevronDown}
+            style={{ transform: arrowTransform }}
+          ></FontAwesomeIcon>
+          <h3 className="text-lg font-semibold ml-1 px-1">Extra data</h3>
+        </header>
+        {displayExtraData && (
+          <div className="content-wrapper ml-6">
+            <div>Clouds: {cloudsContent}</div>
+            <div>Humidity: {humidityContent}</div>
+            <div>Rain: {rainContent}</div>
+            <div>Snow: {snowContent}</div>
+            <div>Wind: {windContent}</div>
+          </div>
+        )}
       </section>
     </section>
   );
