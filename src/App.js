@@ -54,7 +54,7 @@ const App = () => {
   }, [country]);
 
   return (
-    <>
+    <div className="max-w-sm p-6 mx-auto my-2 bg-white rounded-xl shadow-lg flex flex-col justify-between items-stretch ">
       <SearchList
         value={(country && country.label) || ''}
         options={countries}
@@ -72,7 +72,7 @@ const App = () => {
       {city && (
         <WeatherPage city={city} language={languages.english}></WeatherPage>
       )}
-    </>
+    </div>
   );
 };
 

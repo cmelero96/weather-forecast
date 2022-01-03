@@ -17,7 +17,7 @@ const WeatherCard = ({ data }) => {
     '-'
   );
   return (
-    <section>
+    <section className="rounded border-4 border-solid border-slate-300">
       <header>
         <h2>{data.city}</h2>
         <figure>
